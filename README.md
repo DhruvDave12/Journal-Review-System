@@ -1,4 +1,4 @@
-# Journal Review System
+# Journal Review System :tada:
 
 This is the repository for our semester 5 design project.
 
