@@ -43,7 +43,6 @@ module.exports.getGoogleUser = async (id_token, access_token) => {
 }
 
 module.exports.findOrCreateUser = async (googleUser) => {
-    console.log("GOOGLE USER: ", googleUser);
     const {email, name, picture} = googleUser;
     if(!googleUser.verified_email){
         return res.status(403).send("Google Account not verified");

@@ -13,6 +13,18 @@ const userSchema = new Schema({
     },
     picture: {
         type: String,
+    },
+    role: {
+        type: String,
+        enum: ['associate-editor', 'editor', 'user'],
+    },
+    article_reviews: {
+        type: [Schema.Types.ObjectId],
+        ref: 'Article'
+    },
+    article_author: {
+        type: [Schema.Types.ObjectId],
+        ref: 'Article'
     }
 }, {
     timestamps: true,

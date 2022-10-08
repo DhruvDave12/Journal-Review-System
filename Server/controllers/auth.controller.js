@@ -35,6 +35,5 @@ module.exports.googleOAuthHandler = async (req, res) => {
     res.cookie("accessToken", accessToken, accessTokenCookieOptions);
     res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions);
     // redirect back to the client
-    // res.send({ accessToken, refreshToken });
     res.redirect("http://localhost:3000");
 }
