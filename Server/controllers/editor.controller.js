@@ -1,6 +1,7 @@
 const RequestedArticle = require('../models/requested_article.model');
 const Article = require('../models/article.model');
 const User = require('../models/user.model');
+const { sendMail } = require('../config/send_grid.js');
 
 module.exports.getAllPopulatedRequests = async (req,res) => {
     const payload = req.payload;
@@ -84,7 +85,7 @@ module.exports.associateArticle = async (req,res) => {
             });
         }
 
-        const request = await RequestedArticle.findById(requestID);
+        const request = await RequestedArticle.findById(requestID).populate('owner');
 
         if(!request){
             res.status(403).send({
@@ -99,7 +100,7 @@ module.exports.associateArticle = async (req,res) => {
                 message: 'This request has already been fulfilled',
             });
         }
-        
+
         const articleID = request.article;
         if(!articleID){
             res.status(403).send({
@@ -124,8 +125,22 @@ module.exports.associateArticle = async (req,res) => {
         await article.save();
         await request.save();
         
-        // TODO -> send a mail to author that he has been assigned an associate editor and we are waiting for review now
+        const options = {
+            to: request.owner.email,
+            subject: 'Article Assigned',
+            html: '<strong>Your article has been assigned to an associate editor. You will be notified once the article is published. 🎉</strong>',
+            res: res
+        }
 
+        const optionForAssociateEditor = {
+            to: associateEditor.email,
+            subject: 'Article Assigned',
+            html: '<strong>You have been assigned to an article as an associate editor. Please click below to know more.</strong>',
+            res: res
+        }
+
+        sendMail(options);
+        sendMail(optionForAssociateEditor);
 
         res.status(200).send({
             success: true,
@@ -166,7 +181,6 @@ module.exports.getAllAssociateEditors = async (req,res) => {
     try {
         const associate_editors = await User.find({role: 'associate-editor'});
 
-        // TODO -> Send mail to the associate editor regarding that they have been assigned a new article.
         res.status(200).send({
             success: true,
             message: 'Successfully, fetched all associate editors',
