@@ -8,6 +8,7 @@ const {configDB} = require('./config/db');
 const authRoutes = require('./routes/auth.routes');
 const userRoutes = require("./routes/user.routes");
 const articleRoutes = require("./routes/article.routes");
+const editorRoutes = require("./routes/editor.routes");
 
 configDB();
 const app = express();
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/',authRoutes);
 app.use('/', userRoutes);
 app.use('/article', articleRoutes);
+app.use('/editor', editorRoutes);
 
 const PORT = 1337 | process.env.PORT;
 app.listen(PORT, () => {

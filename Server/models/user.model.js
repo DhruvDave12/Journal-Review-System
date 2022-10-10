@@ -16,6 +16,7 @@ const userSchema = new Schema({
     },
     role: {
         type: String,
+        default: 'user',
         enum: ['associate-editor', 'editor', 'user'],
     },
     article_reviews: {

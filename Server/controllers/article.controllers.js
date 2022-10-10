@@ -1,10 +1,8 @@
 const Article = require ('../models/article.model');
 const Question = require ('../models/questions.model');
-
+const RequestedArticle = require('../models/requested_article.model');
 
 module.exports.createArticle = async (req, res) => {
-
-  console.log("REQ.FILE: ", req.file);
 
   const payload = req.payload;
   if (!payload) {
@@ -84,13 +82,40 @@ module.exports.createArticle = async (req, res) => {
       author_questions: quesIdArr,
       pdfFile
     });
-
+    
     await article.save ();
+    
+    // now here the article has been created we will now send this article as a request to the editor
+    const EDITOR_ID = process.env.JOURNAL_EDITOR_ID;
+
+    if(!EDITOR_ID){
+      res.status(400).send({
+        success: false,
+        message: "Internal Server Error"
+      })
+    }
+    if(!article){
+      res.status(400).send({
+        success: false,
+        message: "Internal Server Error"
+      })
+    }
+
+    const requestedArticle = new RequestedArticle({
+      editor: EDITOR_ID,
+      article: article._id,
+      owner: authorID
+    });
+
+    await requestedArticle.save();
+
     res.status (200).send ({
       success: true,
       message: 'Article created successfully',
       article,
+      requestedArticle
     });
+
   } catch (err) {
     res.status (500).send ({
       success: false,
