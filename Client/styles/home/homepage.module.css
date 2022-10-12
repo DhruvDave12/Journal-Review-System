@@ -1,0 +1,95 @@
+.home {
+    font-family: 'Grandstander', cursive;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+
+.nav_wrap {
+    height: 20vh;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.login_btn {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    width: 15%;
+    margin-right: 60px;
+}
+
+.center_wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+    width: 100%;
+}
+
+.home_text {
+    height: 100%;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-left: 40px;
+    align-items: flex-start;
+}
+
+.title {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.title p {
+    font-size: 70px;
+    color: black;
+}
+
+.title span {
+    color: #68127C;
+}
+
+.desc {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.desc p {
+    font-size: 24px;
+    font-family: 'Inter', sans-serif;
+    text-align: justify;
+    color: black;
+}
+
+.signup_btn {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+}
+
+.signup_btn p {
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    color: #706565;
+}
+
+.home_img {
+    z-index: -1;
+    height: 100%;
+    width: 40%;
+    display: flex;
+    margin-left: 20px;
+    align-items: center;
+    justify-content: center;
+}
