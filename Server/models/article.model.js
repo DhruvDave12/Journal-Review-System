@@ -43,12 +43,10 @@ const articleSchema = new Schema({
     },
     time_alloted: {
         type: Number,
-        required: true,
     },
     time_alloted_unit: {
         type: String,
         enum: ['days', 'weeks', 'months', 'year'],
-        required: true,
     },
     is_assigned: {
         type: Boolean,

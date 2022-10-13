@@ -26,6 +26,26 @@ const userSchema = new Schema({
     article_author: {
         type: [Schema.Types.ObjectId],
         ref: 'Article'
+    },
+    associate_requests: {
+        type: [{
+            article: {
+                type: Schema.Types.ObjectId,
+                ref: 'Article',
+            },
+            associate_editor: {
+                type: Schema.Types.ObjectId,
+                ref: 'User',
+            },
+            requestID: {
+                type: Schema.Types.ObjectId,
+                ref: 'RequestedArticle',
+            }
+        }],
+    },
+    is_associate_working: {
+        type: Boolean,
+        default: false,
     }
 }, {
     timestamps: true,

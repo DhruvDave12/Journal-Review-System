@@ -9,6 +9,7 @@ const authRoutes = require('./routes/auth.routes');
 const userRoutes = require("./routes/user.routes");
 const articleRoutes = require("./routes/article.routes");
 const editorRoutes = require("./routes/editor.routes");
+const associateEditorRoutes = require('./routes/associate_editor.routes');
 
 configDB();
 const app = express();
@@ -28,6 +29,7 @@ app.use('/',authRoutes);
 app.use('/', userRoutes);
 app.use('/article', articleRoutes);
 app.use('/editor', editorRoutes);
+app.use('/associate_editor', associateEditorRoutes);
 
 const PORT = 1337 | process.env.PORT;
 app.listen(PORT, () => {
