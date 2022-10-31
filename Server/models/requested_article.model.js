@@ -17,6 +17,14 @@ const requestedArticle = new Schema({
     isFulfilled: {
         type: Boolean,
         default: false,
+    },
+    isRequested: {
+        type: Boolean,
+        default: false,
+    },
+    rejected_associate_editor: {
+        type: [Schema.Types.ObjectId],
+        ref: 'User',
     }
 }, {
     timestamps: true

@@ -27,7 +27,7 @@ module.exports.createArticle = async (req, res) => {
     });
   }
 
-  const {title, domain, author_questions, time_alloted, time_unit} = req.body;
+  const {title, domain, author_questions} = req.body;
   const {path, filename} = req.file;
 
   const pdfFile = {
@@ -42,7 +42,7 @@ module.exports.createArticle = async (req, res) => {
     })
   }
 
-  if (!title || !domain || !author_questions || !time_alloted || !time_unit) {
+  if (!title || !domain || !author_questions) {
     res.status (403).send ({
       success: false,
       message: 'All fields are required',
@@ -77,13 +77,12 @@ module.exports.createArticle = async (req, res) => {
       title,
       domain,
       author: authorID,
-      time_alloted: time_alloted,
-      time_alloted_unit: time_unit,
       author_questions: quesIdArr,
       pdfFile
     });
     
     await article.save ();
+    console.log("ARTICLE: ", article);
     
     // now here the article has been created we will now send this article as a request to the editor
     const EDITOR_ID = process.env.JOURNAL_EDITOR_ID;
@@ -109,10 +108,12 @@ module.exports.createArticle = async (req, res) => {
 
     await requestedArticle.save();
 
+    // populate author and author_questions in this article
+    const populatedArticle = await Article.findById(article._id).populate('author').populate('author_questions');
     res.status (200).send ({
       success: true,
-      message: 'Article created successfully',
-      article,
+      message: 'Article created and request sent successfully',
+      populatedArticle,
       requestedArticle
     });
 
@@ -120,6 +121,7 @@ module.exports.createArticle = async (req, res) => {
     res.status (500).send ({
       success: false,
       message: 'Internal Server Error',
+      error: err
     });
   }
 };

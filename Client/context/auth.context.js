@@ -7,15 +7,18 @@ export const AuthProvider = ({children}) => {
   const [user, setUser] = useState (null);
   const [accessToken, setAccessToken] = useState ({});
   const [isLoggedIn, setIsLoggedIn] = useState (false);
+  const [loading, setLoading] = useState(false);
 
   useEffect (() => {
     const getUser = async () => {
+      setLoading(true);
       try {
         const res = await axiosInstance.get ('/user/details');
         setUser (res.data);
       } catch (err) {
         console.log (err);
       }
+      setLoading(false);
     };
     getUser ();
   }, []);
@@ -31,9 +34,10 @@ export const AuthProvider = ({children}) => {
     [accessToken]
   );
 
+
   return (
     <AuthContext.Provider
-      value={{user, accessToken, setAccessToken, isLoggedIn}}
+      value={{user, accessToken, setAccessToken, isLoggedIn, loading}}
     >
       {children}
     </AuthContext.Provider>

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { ArrowUpOutlined, DownloadOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
+import { useContext } from "react";
+import { AuthContext } from "../../context/auth.context";
 
 const Nav = () => {
-
+    const {user} = useContext(AuthContext);
     const [revToggle, setRevToggle] = useState(true);
     const [getToggle, setGetToggle] = useState(false);
 
@@ -22,7 +24,7 @@ const Nav = () => {
         setGetToggle(true);
         router.push('/getreview');
     }
-
+    
     return (
         <div className="navbar">
             <div className="name">
@@ -42,7 +44,7 @@ const Nav = () => {
                     <ArrowUpOutlined style={{ fontSize: '20px', color: 'green' }} />
                 </div>
                 <div className="user-profile">
-                    <p>Hi Katheryne</p>
+                    <p>Hi {user?.user?.username}</p>
                 </div>
             </div>
             <style jsx>

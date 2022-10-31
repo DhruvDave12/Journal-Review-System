@@ -9,6 +9,10 @@ module.exports.getDetails = async (req,res) => {
         }
         res.status(200).json({success: true, user: user});
     } catch (error) {
-        res.status(500).send(error);
+        res.status(500).send({
+            success: false,
+            message: "Internal Server Error",
+            error: err
+        });
     }
 }

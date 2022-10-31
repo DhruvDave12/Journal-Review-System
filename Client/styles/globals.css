@@ -16,12 +16,13 @@ a {
 
 * {
   box-sizing: border-box;
+  user-select: none;
 }
 
 @media (prefers-color-scheme: dark) {
-  html {
+  /* html {
     color-scheme: dark;
-  }
+  } */
 
   body {
     background: white;
