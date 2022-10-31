@@ -42,6 +42,7 @@ export default function Home(accessToken) {
     // console.log("RES: ", res.data);
     setData(res.data);
   }
+  
   return (
     <div className={styles.container}>
       <Head>
