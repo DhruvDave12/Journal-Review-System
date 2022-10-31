@@ -1,0 +1,44 @@
+.rev {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header {
+    height: 15%;
+    width: 100%;
+    display: flex;
+}
+
+.seclink {
+    display: flex;
+    width: 100%;
+    height: 20%;
+}
+
+.seclink p {
+    color: black;
+    font-family: 'Inter', sans-serif;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.newjour {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.currjour {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}

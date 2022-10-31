@@ -1,7 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { ArrowUpOutlined, DownloadOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/router';
 
 const Nav = () => {
+
+    const [revToggle, setRevToggle] = useState(true);
+    const [getToggle, setGetToggle] = useState(false);
+
+    const router = useRouter();
+
+    const toReview = (e) => {
+        e.preventDefault();
+        setRevToggle(true);
+        setGetToggle(false);
+        router.push('/review');
+    }
+
+    const toGetReview = (e) => {
+        e.preventDefault();
+        setRevToggle(false);
+        setGetToggle(true);
+        router.push('/getreview');
+    }
+
     return (
         <div className="navbar">
             <div className="name">
@@ -9,10 +30,10 @@ const Nav = () => {
             </div>
             <div className="nav-section">
                 <div className="nav-link">
-                    <p>Review</p>
-                    <p>Get Reviewed</p>
+                    <p onClick={toReview} style={{ borderBottom: revToggle ? "3px solid #68127C" : "none" }}>Review</p>
+                    <p onClick={toGetReview} style={{ borderBottom: getToggle ? "4px solid #68127C" : "none" }}>Get Reviewed</p>
                 </div>
-            </div>
+            </div >
             <div className="user-data">
                 <div className="rating">
                     <div className="dashed">
@@ -28,7 +49,7 @@ const Nav = () => {
                 {`
                     .navbar{
                         width: 100%;
-                        height: 15%;
+                        height: 100%;
                         display: flex;
                     }
 
@@ -69,6 +90,8 @@ const Nav = () => {
                         color: black;
                         font-family: 'Inter', sans-serif;
                         font-size: 22px;
+                        cursor: pointer;
+                        padding-bottom: 4px;
                     } 
 
                     .user-data{
@@ -117,7 +140,7 @@ const Nav = () => {
                     }
                 `}
             </style>
-        </div>
+        </div >
     )
 }
 
