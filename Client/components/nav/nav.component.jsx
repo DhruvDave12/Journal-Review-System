@@ -1,7 +1,10 @@
 import React from "react";
 import { ArrowUpOutlined, DownloadOutlined } from '@ant-design/icons';
-
+import { useContext } from "react";
+import { AuthContext } from "../../context/auth.context";
 const Nav = () => {
+    const {user} = useContext(AuthContext);
+    
     return (
         <div className="navbar">
             <div className="name">
@@ -21,7 +24,7 @@ const Nav = () => {
                     <ArrowUpOutlined style={{ fontSize: '20px', color: 'green' }} />
                 </div>
                 <div className="user-profile">
-                    <p>Hi Katheryne</p>
+                    <p>Hi {user?.user?.username}</p>
                 </div>
             </div>
             <style jsx>
