@@ -108,7 +108,8 @@ module.exports.acceptOrRejectArticle = async (req,res) => {
             request.rejected_associate_editor.push(associateID);
             request.isRequested = false;
             // remove the request from the associate editor's requests
-            user.associate_requests = user.associate_requests.filter(request => request._id != requestID);
+            // TODO -> NOT WORKING CHECK IT OUT....
+            user.associate_requests = user.associate_requests.filter(request => request.requestID != requestID);
 
             await user.save();
             await request.save();
@@ -151,9 +152,7 @@ module.exports.acceptOrRejectArticle = async (req,res) => {
             sendMail(optionForAssociateEditor);
 
             // Send mail to the author of the article
-            // TODO -> MAIL NOT GOING TO THE AUTHOR REGARDING ACCEPTANCE.
             const author = await User.findById(article.author);
-            console.log("AUTHOR: ", author);
             const optionForAuthor = {
                 to: author.email,
                 subject: 'Congratulations, your article has been assigned an associate editor',

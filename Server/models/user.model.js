@@ -33,6 +33,7 @@ const userSchema = new Schema({
                 type: Schema.Types.ObjectId,
                 ref: 'Article',
             },
+            // TODO -> Remove the associate editor
             associate_editor: {
                 type: Schema.Types.ObjectId,
                 ref: 'User',
