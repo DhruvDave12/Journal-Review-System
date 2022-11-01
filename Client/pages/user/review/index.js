@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import styles from '../../styles/review/review.module.css';
-import Nav from '../../components/nav/nav.component';
+import Nav from '../../../components/nav/nav.component';
 
 const Review = () => {
-
     const [newToggle, setNewToggle] = useState(true);
     const [currToggle, setCurrToggle] = useState(false);
 

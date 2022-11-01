@@ -14,6 +14,7 @@ export const AuthProvider = ({children}) => {
       setLoading(true);
       try {
         const res = await axiosInstance.get ('/user/details');
+        localStorage.setItem("role", res?.data?.user?.role);
         setUser (res.data);
       } catch (err) {
         console.log (err);

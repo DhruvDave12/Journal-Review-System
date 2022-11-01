@@ -16,31 +16,6 @@ const Home = (accessToken) => {
 
   return (
       <div className={styles.home}>
-        
-        {/* <div className={styles.nav_wrap}>
-          <div className={styles.login_btn}>
-            {
-              !isLoggedIn ?
-              <Button
-                type="primary"
-                style={{
-                  backgroundColor: 'white',
-                  width: '100%',
-                  height: '50px',
-                  border: '2px solid #68127C',
-                  borderRadius: '6px',
-                  fontSize: '18px',
-                  color: '#68127C',
-                  fontFamily: 'Inter, sans-serif',
-                  cursor: 'pointer',
-                }}
-              >
-                Login with Google
-              </Button>
-               : <h1>Logged in 🎉</h1>
-            }
-          </div>
-        </div> */}
         <div>
           <div className={styles.title}>
             <p>REVI<span>OUR</span></p>
