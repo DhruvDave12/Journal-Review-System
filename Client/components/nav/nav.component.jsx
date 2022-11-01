@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/auth.context";
 
 const Nav = () => {
-    const {user} = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const [revToggle, setRevToggle] = useState(true);
     const [getToggle, setGetToggle] = useState(false);
 
@@ -15,7 +15,7 @@ const Nav = () => {
         e.preventDefault();
         setRevToggle(true);
         setGetToggle(false);
-        router.push('/review');
+        router.push('/user/review');
     }
 
     const toGetReview = (e) => {
@@ -24,7 +24,7 @@ const Nav = () => {
         setGetToggle(true);
         router.push('/getreview');
     }
-    
+
     return (
         <div className="navbar">
             <div className="name">
@@ -38,9 +38,7 @@ const Nav = () => {
             </div >
             <div className="user-data">
                 <div className="rating">
-                    <div className="dashed">
-                        <p>1242</p>
-                    </div>
+                    <p className="dashed">1242</p>
                     <ArrowUpOutlined style={{ fontSize: '20px', color: 'green' }} />
                 </div>
                 <div className="user-profile">
@@ -53,6 +51,8 @@ const Nav = () => {
                         width: 100%;
                         height: 100%;
                         display: flex;
+                        justify-content: space-between;
+                        align-items: center;
                     }
 
                     .name{
@@ -105,7 +105,7 @@ const Nav = () => {
                     }
 
                     .rating{
-                        height: 50%;
+                        height: 50px;
                         width: 40%;
                         display: flex;
                         justify-content: space-around;
@@ -114,20 +114,17 @@ const Nav = () => {
                         border-right: 3px solid #68127C;
                     }
 
-                    .rating p{
-                        color: green;
-                        font-family: 'Inter', sans-serif;
-                        font-size: 22px;
-                    }
-
                     .dashed{
-                        border-bottom: 1px dashed black;
+                        border-bottom: 2px dashed black;
                         width: 60%;
-                        height: 80%;
+                        height: 36px;
                         padding-right: 4px;
                         display: flex;
                         justify-content: center;
                         align-items: center;
+                        color: green;
+                        font-family: 'Inter', sans-serif;
+                        font-size: 22px;
                     }
 
                     .user-profile{

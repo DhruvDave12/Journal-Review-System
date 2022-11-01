@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import styles from '../../styles/review/review.module.css';
+import styles from '../../../styles/review/review.module.css';
 import Nav from '../../../components/nav/nav.component';
 
 const Review = () => {
-    const [newToggle, setNewToggle] = useState(true);
+    const [newToggle, setNewToggle] = useState(false);
     const [currToggle, setCurrToggle] = useState(false);
 
     const handleClick = (e) => {
