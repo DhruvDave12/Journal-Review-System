@@ -13,4 +13,8 @@ const upload = multer({storage});
 // @PATH: /article/create
 router.post('/create', upload.single('pdfFile'), verifyAccessToken , createArticle);
 
+// TODO -> CREATE A ROUTE TO FETCH ALL ARTICLES
+
+// TODO -> CREATE A ROUTE TO FETCH A SINGLE ARTICLE
+
 module.exports = router;
