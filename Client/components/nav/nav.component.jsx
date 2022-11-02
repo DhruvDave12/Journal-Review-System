@@ -6,7 +6,7 @@ import { AuthContext } from "../../context/auth.context";
 
 const Nav = () => {
     const { user } = useContext(AuthContext);
-    const [revToggle, setRevToggle] = useState(true);
+    const [revToggle, setRevToggle] = useState(false);
     const [getToggle, setGetToggle] = useState(false);
 
     const router = useRouter();
@@ -49,7 +49,7 @@ const Nav = () => {
                 {`
                     .navbar{
                         width: 100%;
-                        height: 100%;
+                        height: 15vh;
                         display: flex;
                         justify-content: space-between;
                         align-items: center;
@@ -122,6 +122,7 @@ const Nav = () => {
                         display: flex;
                         justify-content: center;
                         align-items: center;
+                        cursor: pointer;
                         color: green;
                         font-family: 'Inter', sans-serif;
                         font-size: 22px;
@@ -129,7 +130,7 @@ const Nav = () => {
 
                     .user-profile{
                         width: 70%;
-                        margin-left : 20px
+                        margin-left : 20px;
                     }
 
                     .user-profile p {

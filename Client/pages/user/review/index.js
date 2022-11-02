@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styles from '../../../styles/review/review.module.css';
 import Nav from '../../../components/nav/nav.component';
+import ArticleCard from '../../../components/article-card/article-card.component';
 
 const Review = () => {
-    const [newToggle, setNewToggle] = useState(false);
+    const [newToggle, setNewToggle] = useState(true);
     const [currToggle, setCurrToggle] = useState(false);
 
     const handleClick = (e) => {
@@ -14,9 +15,6 @@ const Review = () => {
 
     return (
         <div className={styles.rev}>
-            <div className={styles.header}>
-                <Nav />
-            </div>
             <div className={styles.seclink}>
                 <div className={styles.newjour}>
                     <p onClick={handleClick}>New Journals</p>
@@ -42,6 +40,17 @@ const Review = () => {
                         }}>
                     </div>
                 </div>
+            </div>
+            <div className={styles.newjourlist}>
+                <ArticleCard title={"Journal of Advances in Power Electronics"} />
+                <ArticleCard title={"Journal of Advances in Power Electronics"} />
+                <ArticleCard title={"Journal of Advances in Power Electronics"} />
+                <ArticleCard title={"Journal of Advances in Power Electronics"} />
+                <ArticleCard title={"Journal of Advances in Power Electronics"} />
+                <ArticleCard title={"Journal of Advances in Power Electronics"} />
+                <ArticleCard title={"Journal of Advances in Power Electronics"} />
+                <ArticleCard title={"Journal of Advances in Power Electronics"} />
+                <ArticleCard title={"Journal of Advances in Power Electronics"} />
             </div>
         </div>
     )
