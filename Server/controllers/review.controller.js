@@ -163,3 +163,50 @@ module.exports.rejectArticle = async (req,res) => {
         });
     }
 }
+
+module.exports.getCurrentlyReviewing = async (req,res) => {
+    const payload = req.payload;
+    if(!payload){
+        return res.status(403).send({
+            success: false,
+            message: 'Invalid access token'
+        });
+    }
+
+    const userID = payload._id;
+    try {
+        const user = await User.findById(userID);
+        if(!user){
+            return res.status(403).send({
+                success: false,
+                message: 'User not found'
+            });
+        }
+
+        if(user.role != 'user'){
+            return res.status(403).send({
+                success: false,
+                message: 'You are not permitted to access this route'
+            });
+        }
+
+        // find all articles where author is not the current user
+        const articles = await Article.find({author: {$ne: userID}}).populate('reviews');
+        const currentlyReviewing = articles.filter(article => {
+            const review = article.reviews.find(review => review.reviewer.toString() === userID);
+            return review;
+        });
+
+        res.status(200).send({
+            success: true,
+            message: 'Successfully, fetched all currently reviewing articles',
+            currently_reviewing: currentlyReviewing
+        })
+
+    } catch (err) {
+        return res.status(500).send({
+            success: false,
+            message: 'Internal Server Error'
+        });
+    }
+}
