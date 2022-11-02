@@ -27,9 +27,7 @@ module.exports.getRequests = async (req,res) => {
                 message: 'You are not permitted to access this route'
             });
         }
-        
-        const requests = user.article_reviews;
-
+        const requests = user.article_reviews.filter(review => review.author.toString() !== userID);
         res.status(200).send({
             success: true,
             message: 'Successfully, fetched all requests',
@@ -70,8 +68,6 @@ module.exports.acceptArticle = async (req,res) => {
         }
 
         const {articleID} = req.params;
-        // expecting array of object with questionID and answer
-        const { authorAnswers } = req.body;
 
         const article = await Article.findById(articleID).populate('author_questions');
 
@@ -82,26 +78,24 @@ module.exports.acceptArticle = async (req,res) => {
             });
         }
 
-        let score = 0;
-        [...authorAnswers].forEach(answer => {
-            const question = article.author_questions.find(question => question._id == answer.questionID);
-            if(!question){
-                return res.status(403).send({
-                    success: false,
-                    message: 'Question not found'
-                });
-            }
-            const correctAnswer = question.correct_answer;
-            if(answer.answer === correctAnswer){
-                score ++;
-            }
-        });
+        // let score = 0;
+        // [...authorAnswers].forEach(answer => {
+        //     const question = article.author_questions.find(question => question._id == answer.questionID);
+        //     if(!question){
+        //         return res.status(403).send({
+        //             success: false,
+        //             message: 'Question not found'
+        //         });
+        //     }
+        //     const correctAnswer = question.correct_answer;
+        //     if(answer.answer === correctAnswer){
+        //         score ++;
+        //     }
+        // });
 
         const review = new Review({
             reviewer: userID,
             article: articleID,
-            author_question_score: score,
-            author_question_answers: authorAnswers
         })
 
         await review.save();
