@@ -22,13 +22,11 @@ const reviewSchema = new Schema({
             },
             answer: {
                 type: String,
-                required: true
             },
         }],
     },
     critical_analysis: {
         type: String,
-        required: true,
     },
     author_question_score: {
         type: Number,

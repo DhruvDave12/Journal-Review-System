@@ -27,6 +27,10 @@ const userSchema = new Schema({
         type: [Schema.Types.ObjectId],
         ref: 'Article'
     },
+    domain: {
+        type: [String],
+        required: true,
+    },
     associate_requests: {
         type: [{
             article: {

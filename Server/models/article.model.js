@@ -55,6 +55,10 @@ const articleSchema = new Schema({
     pdfFile: {
         type: pdfSchema,
         required: true,
+    },
+    rejected_reviewers: {
+        type: [Schema.Types.ObjectId],
+        ref: 'User',
     }
 }, {
     timestamps: true,
