@@ -103,7 +103,7 @@ module.exports.acceptArticle = async (req,res) => {
         article.reviews.push(review._id);
         // ON EACH REVIEW WE WILL UPDATE THE CURRENT PROGRESS TO +10
         // TODO -> check if we are comfortable with current progress as enum string of stages.
-        article.current_progress += 10;
+        // article.current_progress += 10;
         await article.save();
 
         res.status(200).send({
