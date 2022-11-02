@@ -27,7 +27,7 @@ module.exports.getRequests = async (req,res) => {
                 message: 'You are not permitted to access this route'
             });
         }
-        const requests = user.article_reviews.filter(review => review.author.toString() !== userID);
+        const requests = user.article_reviews.filter(review => review.author.toString() !== userID && !review.reviews.includes(userID));
         res.status(200).send({
             success: true,
             message: 'Successfully, fetched all requests',
@@ -92,7 +92,8 @@ module.exports.acceptArticle = async (req,res) => {
         //         score ++;
         //     }
         // });
-
+        user.article_reviews = user.article_reviews.filter(review => review.toString() !== articleID);
+        await user.save();
         const review = new Review({
             reviewer: userID,
             article: articleID,

@@ -208,7 +208,7 @@ module.exports.sendToDomains = async (req,res) => {
             });
         }
     
-        if(user.role != 'associate-editor'){
+        if(user.role !== 'associate-editor'){
             return res.status(403).send({
                 success: false,
                 message: 'You are not permitted to access this route'

@@ -14,6 +14,11 @@ const Home = (accessToken) => {
     setAccessToken(accessToken);
   }, []);
 
+  let role = 'NaN';
+  if(typeof window !== 'undefined'){
+    role = localStorage.getItem('role');
+  }
+
   return (
     <div className={styles.home}>
       <div className={styles.center_wrap}>
@@ -45,7 +50,7 @@ const Home = (accessToken) => {
                 Signup with Google
               </a>
               : <Button
-                onClick={() => { router.push('/user/dashboard') }}
+                onClick={() => { router.push(`/${role}/dashboard`) }}
                 type="primary"
                 style={{
                   backgroundColor: '#68127C',

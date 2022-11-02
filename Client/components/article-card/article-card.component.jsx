@@ -1,14 +1,15 @@
 import React from "react";
 import { Button } from "antd";
 
-const ArticleCard = ({ title }) => {
+const ArticleCard = ({ request, onAccept, onReject }) => {
     return (
         <div className="art-card">
             <p className="art-name">
-                {title}
+                {request.title}
             </p>
             <div className="review-btn">
                 <Button
+                    onClick={() => onAccept(request._id)}
                     type="primary"
                     style={{
                         backgroundColor: '#EEA4FF',
@@ -27,6 +28,7 @@ const ArticleCard = ({ title }) => {
             </div>
             <div className="reject-btn">
                 <Button
+                    onClick={() => onReject(request._id)}
                     type="primary"
                     style={{
                         backgroundColor: '#EEA4FF',
