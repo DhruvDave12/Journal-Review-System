@@ -22,7 +22,7 @@ const Nav = () => {
         e.preventDefault();
         setRevToggle(false);
         setGetToggle(true);
-        router.push('/getreview');
+        router.push('/user/get-reviewed');
     }
 
     return (
