@@ -1,0 +1,56 @@
+.art_form_wrap {
+    width: 100vw;
+    height: 85vh;
+    display: block;
+    overflow-y: scroll;
+}
+
+.form_heading {
+    font-size: 40px;
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+}
+
+.article_form {
+    width: 100%;
+    height: 75%;
+    display: block;
+}
+
+.arttitle_div {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 20%;
+    margin: auto;
+}
+
+.arttitle_div p {
+    font-size: 24px;
+    font-family: 'Inter', sans-serif;
+}
+
+.arttitle_input[type=text] {
+    width: 80%;
+    height: 60%;
+    font-size: 20px;
+    padding: 8px;
+    outline: none;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+}
+
+.arttitle_input[type=text]:focus {
+    box-shadow: 0 0 3px #68127C;
+    border: 1px solid #68127C;
+}
+
+.upload_btn{
+    width: 80%;
+    height: 25%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: auto;
+}
