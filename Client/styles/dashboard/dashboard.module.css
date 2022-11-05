@@ -1,0 +1,13 @@
+.user_dashboard{
+    width: 100vw;
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.select_domain{
+    font-size: 30px;
+    font-family: 'Inter', sans-serif;
+}
