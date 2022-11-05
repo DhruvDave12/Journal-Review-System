@@ -21,13 +21,14 @@ module.exports.createArticle = async (req, res) => {
   const authorID = payload._id;
 
   if (!authorID) {
+    console.log("Author ID not found");
     res.status (403).send ({
       success: false,
       message: 'Invalid User',
     });
   }
 
-  const {title, domain, author_questions} = req.body;
+  const {title, domain, author_questions, totalPages} = req.body;
   const {path, filename} = req.file;
 
   const pdfFile = {
@@ -43,6 +44,7 @@ module.exports.createArticle = async (req, res) => {
   }
 
   if (!title || !domain || !author_questions) {
+    console.log("Title, domain or author questions not found");
     res.status (403).send ({
       success: false,
       message: 'All fields are required',
@@ -58,6 +60,7 @@ module.exports.createArticle = async (req, res) => {
     //TODO:  IMPROVE THE QUESTION ADDING API SO THAT LESS NETWORK CALLS ARE THERE
     author_parsed_questions.map (async (ques) => {
       if (ques.options.length != 4) {
+        console.log("Options not found");
         res.status (403).send ({
           success: false,
           message: 'Four options are required',
@@ -78,12 +81,11 @@ module.exports.createArticle = async (req, res) => {
       domain,
       author: authorID,
       author_questions: quesIdArr,
-      pdfFile
+      pdfFile,
+      total_pages: totalPages,
     });
     
     await article.save ();
-    console.log("ARTICLE: ", article);
-    
     // now here the article has been created we will now send this article as a request to the editor
     const EDITOR_ID = process.env.JOURNAL_EDITOR_ID;
 

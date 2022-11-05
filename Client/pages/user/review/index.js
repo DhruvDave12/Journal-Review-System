@@ -1,15 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import styles from '../../../styles/review/review.module.css';
-<<<<<<< Updated upstream
-import NewJournals
-  from '../../../components/new-journals/new_journals.component';
-import CurrentlyReviewing
-  from '../../../components/currently-reviewing/currently_reviewing.component';
+import NewJournals from '../../../components/new-journals/new_journals.component';
+import CurrentlyReviewing from '../../../components/currently-reviewing/currently_reviewing.component';
 import axiosInstance from '../../../services/axiosInstance';
 import LazyLoader from '../../../components/lazy-loader/lazy-loader.component';
-=======
-import ArticleCard from '../../../components/article-card/article-card.component';
->>>>>>> Stashed changes
 
 const Review = () => {
   const [newJournalToggle, setNewJournalToggle] = useState (true);

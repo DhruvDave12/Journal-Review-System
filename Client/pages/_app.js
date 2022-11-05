@@ -1,3 +1,4 @@
+// import 'antd/dist/antd.css';
 import '../styles/globals.css';
 import {AuthProvider, AuthContext} from '../context/auth.context';
 import { useRouter } from 'next/router';

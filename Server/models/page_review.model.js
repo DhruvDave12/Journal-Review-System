@@ -6,13 +6,9 @@ const pageReviewSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Article',
     },
-    review: {
-        type: Schema.Types.ObjectId,
-        ref: 'Review',
-    },
     comments: {
-        type: String,
-        required: true,
+        type: [Schema.Types.ObjectId],
+        ref: 'PageComment',
     }
 }, {
     timestamps: true,

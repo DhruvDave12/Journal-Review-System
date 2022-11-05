@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {verifyAccessToken} = require('../middlewares/jwt_verifier.middleware');
-const {getRequests, acceptArticle, rejectArticle, getCurrentlyReviewing} = require('../controllers/review.controller');
+const {getRequests, acceptArticle, rejectArticle, getCurrentlyReviewing, postPageWiseReview} = require('../controllers/review.controller');
 
 // @desc Get all review requests
 // @method GET
@@ -25,4 +25,9 @@ router.get('/currently-reviewing', verifyAccessToken, getCurrentlyReviewing);
 // TODO -> GET A LIST OF ALL REVIEWS DONE BY THE USER
 
 // TODO -> GET A SINGLE REVIEW DONE BY THE USER
+
+// @desc Page wise review storage
+// @method POST
+// @path /review/page-review/:articleID
+router.post('/page-review/:articleID', verifyAccessToken, postPageWiseReview);
 module.exports = router;

@@ -59,6 +59,10 @@ const articleSchema = new Schema({
     rejected_reviewers: {
         type: [Schema.Types.ObjectId],
         ref: 'User',
+    },
+    total_pages: {
+        type: Number,
+        required: true,
     }
 }, {
     timestamps: true,

@@ -26,20 +26,7 @@
     margin: auto;
 }
 
-.arttitle_div p {
-    font-size: 24px;
-    font-family: 'Inter', sans-serif;
-}
 
-.arttitle_input[type=text] {
-    width: 80%;
-    height: 60%;
-    font-size: 20px;
-    padding: 8px;
-    outline: none;
-    border: 1px solid #DDDDDD;
-    border-radius: 4px;
-}
 
 .arttitle_input[type=text]:focus {
     box-shadow: 0 0 3px #68127C;
@@ -48,9 +35,53 @@
 
 .upload_btn{
     width: 80%;
-    height: 25%;
+    /* height: 25%; */
     display: flex;
     justify-content: center;
     flex-direction: column;
     margin: auto;
+}
+
+.input__wrapper{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.questions {
+    width: 80%;
+    height: 20%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+}
+
+.question p {
+    font-size: 24px;
+    font-family: 'Inter', sans-serif;
+}
+
+.options {
+    width: 80%;
+    height: 20%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+}
+
+.option {
+    width: 45%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.option p {
+    font-size: 24px;
+    font-family: 'Inter', sans-serif;
 }
