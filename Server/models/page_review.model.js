@@ -6,6 +6,10 @@ const pageReviewSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Article',
     },
+    reviewer: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    },
     comments: {
         type: [Schema.Types.ObjectId],
         ref: 'PageComment',

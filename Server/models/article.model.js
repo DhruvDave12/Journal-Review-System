@@ -63,6 +63,10 @@ const articleSchema = new Schema({
     total_pages: {
         type: Number,
         required: true,
+    },
+    accepted_score: {
+        type: Number,
+        default: 0,
     }
 }, {
     timestamps: true,

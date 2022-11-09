@@ -35,6 +35,18 @@ const reviewSchema = new Schema({
     isCompleted: {
         type: Boolean,
         default: false,
+    },
+    progress: {
+        type: Number,
+        default: 0,
+    },
+    author_test_passed: {
+        type: Boolean,
+        default: false,
+    },
+    should_be_published: {
+        type: Boolean,
+        default: false,
     }
 },{
     timestamps: true,

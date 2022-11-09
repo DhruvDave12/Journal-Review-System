@@ -21,6 +21,7 @@ const NewArticleForm = () => {
   const [option4, setOption4] = React.useState ('');
 
   const [totalPages, setTotalPages] = React.useState(0);
+  const [acceptedScore, setAcceptedScore] = React.useState(0);
 
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -62,6 +63,7 @@ const handleSubmit = async (e) => {
     formData.append('title', title);
     formData.append('domain', domain);
     formData.append('totalPages', totalPages);
+    formData.append('accepted_score', acceptedScore);
     formData.append('author_questions', JSON.stringify(finalAuthorQuestion));
     setApiLoading(true);
     try{    
@@ -88,6 +90,9 @@ const handleSubmit = async (e) => {
           </div>
           <div style={{width: '80%'}}>
             <CustomInput label={'Total Pages'} handleChange={setTotalPages} />
+          </div>
+          <div style={{width: '80%'}}>
+            <CustomInput label={'Accepted Score'} handleChange={setAcceptedScore} />
           </div>
         </div>
         <div className={styles.upload_btn}>

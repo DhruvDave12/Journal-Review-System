@@ -28,7 +28,7 @@ module.exports.createArticle = async (req, res) => {
     });
   }
 
-  const {title, domain, author_questions, totalPages} = req.body;
+  const {title, domain, author_questions, totalPages, accepted_score} = req.body;
   const {path, filename} = req.file;
 
   const pdfFile = {
@@ -83,6 +83,7 @@ module.exports.createArticle = async (req, res) => {
       author_questions: quesIdArr,
       pdfFile,
       total_pages: totalPages,
+      accepted_score: accepted_score,
     });
     
     await article.save ();

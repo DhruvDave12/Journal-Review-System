@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {verifyAccessToken} = require('../middlewares/jwt_verifier.middleware');
-const {getRequests, acceptArticle, rejectArticle, getCurrentlyReviewing, postPageWiseReview} = require('../controllers/review.controller');
+const {getRequests, acceptArticle, rejectArticle, getCurrentlyReviewing, postPageWiseReview, postAuthorQuestionAnswers, handleFinalSubmission} = require('../controllers/review.controller');
 
 // @desc Get all review requests
 // @method GET
@@ -30,4 +30,14 @@ router.get('/currently-reviewing', verifyAccessToken, getCurrentlyReviewing);
 // @method POST
 // @path /review/page-review/:articleID
 router.post('/page-review/:articleID', verifyAccessToken, postPageWiseReview);
+
+// @desc Submit author questions and answer api
+// @method POST
+// @path /review/author-question-answers/:articleID
+router.post('/author-question-answers/:articleID', verifyAccessToken, postAuthorQuestionAnswers);
+
+// @desc Submit final review
+// @method POST
+// @path /review/final-review/:articleID
+router.post('/final-review/:articleID', verifyAccessToken, handleFinalSubmission);
 module.exports = router;
