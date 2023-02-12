@@ -66,9 +66,8 @@ const handleSubmit = async (e) => {
     formData.append('accepted_score', acceptedScore);
     formData.append('author_questions', JSON.stringify(finalAuthorQuestion));
     setApiLoading(true);
-    try{    
+    try{
         await axiosInstance.post('/article/create', formData);
-        console.log("ARTICLE SUCCEFSSFULLY CREATED");
         setApiLoading(false);
     } catch (err){
         console.log(err);

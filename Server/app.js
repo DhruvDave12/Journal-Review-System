@@ -33,7 +33,7 @@ app.use('/editor', editorRoutes);
 app.use('/associate_editor', associateEditorRoutes);
 app.use('/review', reviewerRoutes);
 
-const PORT = 1337 | process.env.PORT;
+const PORT = 1337 || process.env.PORT;
 app.listen(PORT, () => {
     console.log("Server is running on port " + PORT + "🎉");
 })
