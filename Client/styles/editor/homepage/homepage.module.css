@@ -1,0 +1,32 @@
+.title {
+    font-size: 2.5rem;
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    margin-top: 0;
+}
+.sub__title{
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    margin-top: 0;
+    text-decoration: underline;
+}
+.pending__text{
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    margin-top: 0;
+}
+.request__title{
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    margin-top: 0;
+}
+.editor__dashboard{
+    padding: 2rem;
+}
