@@ -4,12 +4,14 @@ import NewJournals from '../../../components/new-journals/new_journals.component
 import CurrentlyReviewing from '../../../components/currently-reviewing/currently_reviewing.component';
 import axiosInstance from '../../../services/axiosInstance';
 import LazyLoader from '../../../components/lazy-loader/lazy-loader.component';
+import { useRouter } from 'next/router';
 
 const Review = () => {
   const [newJournalToggle, setNewJournalToggle] = useState(true);
   const [newReviewRequests, setNewReviewRequests] = useState([]);
   const [currentlyReviewing, setCurrentlyReviewing] = useState([]);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchNewReviewRequests = async () => {
@@ -38,10 +40,11 @@ const Review = () => {
   const handleOnAcceptArticle = async (articleID) => {
     try {
       setLoading(true);
-      const response = await axiosInstance.post(`review/requests/accept/${articleID}`);
+      const response = await axiosInstance.post(`/review/requests/accept/${articleID}`);
       if (response.status === 200) {
         //TODO -> set a toast using react toastify
         console.log("REQUEST ACCEPTED SUCCESSFULLY");
+        router.push('/in-review');
       } else {
         //TODO -> set a toast using react toastify
         console.log(response.data.message);
