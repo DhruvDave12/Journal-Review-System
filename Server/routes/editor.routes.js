@@ -16,6 +16,6 @@ router.post('/article/associate', verifyAccessToken, associateArticle);
 // @DESC: Get a list of all associate editors available on the system
 // @METHOD: GET
 // @PATH: /editor/associate/editors
-router.get('/associate/editors', verifyAccessToken, getAllAssociateEditors);
+router.get('/associate/editors/:requestID', verifyAccessToken, getAllAssociateEditors);
 
 module.exports = router;

@@ -30,8 +30,6 @@ module.exports.getAllPopulatedRequests = async (req, res) => {
   try {
     const requests = await RequestedArticle.find ({
       editor: editorID,
-      isFulfilled: false,
-      isRequested: false,
     })
       .populate ('article')
       .populate ('owner');
@@ -183,7 +181,7 @@ module.exports.getAllAssociateEditors = async (req, res) => {
     });
   }
 
-  const {requestID} = req.body;
+  const {requestID} = req.params;
   if (!requestID) {
     res.status (403).send ({
       success: false,
@@ -206,7 +204,6 @@ module.exports.getAllAssociateEditors = async (req, res) => {
   }
 
   try {
-
     const request = await RequestedArticle.findById (requestID);
     const rejectedAssociateEditorsList = request.rejected_associate_editor;
     const associate_editors = await User.find ({

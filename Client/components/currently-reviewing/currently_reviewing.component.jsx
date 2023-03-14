@@ -10,7 +10,7 @@ const CurrentlyReviewing = ({currently_reviewing}) => {
             <p style={{fontWeight: '300', fontSize: 28, textAlign:'center', color: 'black'}}>No journals in review 😴</p>
         ) :
         currently_reviewing && currently_reviewing.map((request) => (
-            <ArticleCard onAccept={() => {}} onReject={() => {}} request={request}/>  
+            <ArticleCard onAccept={() => {}} onReject={() => {}} request={request} isAcceptedForReviewing={true}/>  
         ))
       }
     </div>

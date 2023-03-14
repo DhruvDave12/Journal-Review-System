@@ -11,7 +11,6 @@
     line-height: 1.2;
     margin-bottom: 1.5rem;
     margin-top: 0;
-    text-decoration: underline;
 }
 .pending__text{
     font-size: 1.5rem;
@@ -29,4 +28,10 @@
 }
 .editor__dashboard{
     padding: 2rem;
+}
+.top__wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }

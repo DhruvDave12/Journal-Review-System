@@ -8,6 +8,7 @@ import QuestionUploadModal
   import FileInput from '../../../../../components/file-input/file-input.component';
 import axiosInstance from '../../../../../services/axiosInstance';
 import LazyLoader from '../../../../../components/lazy-loader/lazy-loader.component';
+
 const NewArticleForm = () => {
   const [authorQuestions, setAuthorQuestions] = useState ([]);
   const [title, setTitle] = useState ('');
