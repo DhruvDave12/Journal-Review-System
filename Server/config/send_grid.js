@@ -1,7 +1,7 @@
 const sgMail = require ('@sendgrid/mail');
 sgMail.setApiKey (process.env.SG_TOKEN);
 
-module.exports.sendMail = async (options) => {
+module.exports.sendMail = async (options, res) => {
   const {to, subject, html} = options;
 
   const msg = {

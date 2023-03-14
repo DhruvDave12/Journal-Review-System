@@ -10,7 +10,7 @@ const NewJournals = ({requests, onAccept, onReject}) => {
             <p style={{fontWeight: '300', fontSize: 28, textAlign:'center'}}>No new journals in request 😴</p>
         ) :
         requests && requests.map((request) => (
-            <ArticleCard key={request._id} request={request} onAccept={onAccept} onReject={onReject}/>
+            <ArticleCard key={request._id} request={request} onAccept={onAccept} onReject={onReject} isAcceptedForReviewing={false}/>
         ))
       }
     </div>
