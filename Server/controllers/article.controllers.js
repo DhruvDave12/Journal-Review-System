@@ -1,6 +1,7 @@
 const Article = require ('../models/article.model');
 const Question = require ('../models/questions.model');
 const RequestedArticle = require('../models/requested_article.model');
+const User = require('../models/user.model');
 
 module.exports.createArticle = async (req, res) => {
 
@@ -128,3 +129,95 @@ module.exports.createArticle = async (req, res) => {
     });
   }
 };
+
+module.exports.getAllArticles= async (req,res) => {
+  const payload = req.payload;
+  if(!payload){
+      return res.status(403).send({
+          success: false,
+          message: 'Invalid access token'
+      });
+  }
+
+  const userID = payload._id;
+  try {
+      const user = await User.findById(userID);
+      if(!user){
+          return res.status(403).send({
+              success: false,
+              message: 'User not found'
+          });
+      }
+
+      if(user.role != 'user'){
+          return res.status(403).send({
+              success: false,
+              message: 'You are not permitted to access this route'
+          });
+      }
+
+      // find all articles where author is user (could be buggy as find returns the first match only)
+      
+      const articles = await Article.find().populate('reviews author');
+      //To DO  find ALL or find
+
+      
+
+      res.status(200).send({
+          success: true,
+          message: 'Successfully, fetched all articles',
+          articles: articles
+      })
+
+  } catch (err) {
+      return res.status(500).send({
+          success: false,
+          message: 'Internal Server Error'
+      });
+  }
+}
+module.exports.getAnArticle= async (req,res) => {
+  const payload = req.payload;
+  const {id} = req.params;
+  if(!payload){
+      return res.status(403).send({
+          success: false,
+          message: 'Invalid access token'
+      });
+  }
+
+  const userID = payload._id;
+  try {
+      const user = await User.findById(userID);
+      if(!user){
+          return res.status(403).send({
+              success: false,
+              message: 'User not found'
+          });
+      }
+
+      if(user.role != 'user'){
+          return res.status(403).send({
+              success: false,
+              message: 'You are not permitted to access this route'
+          });
+      }
+
+      // find an articles where author is user and id of article = id required for aritcle
+      
+      const articles = await Article.findById(id).populate('reviews author');
+      
+
+      res.status(200).send({
+          success: true,
+          message: 'Successfully, fetched article',
+          article: articles
+      })
+
+  } catch (err) {
+      return res.status(500).send({
+          success: false,
+          message: 'Internal Server Error'
+      });
+  }
+}

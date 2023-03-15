@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const {verifyAccessToken} = require('../middlewares/jwt_verifier.middleware');
-const {getRequests, acceptArticle, rejectArticle, getCurrentlyReviewing, postPageWiseReview, postAuthorQuestionAnswers, handleFinalSubmission} = require('../controllers/review.controller');
+const {getRequests, acceptArticle, rejectArticle, getCurrentlyReviewing, postPageWiseReview, postAuthorQuestionAnswers, handleFinalSubmission,getAllReviews, getReview} = require('../controllers/review.controller');
+
 
 // @desc Get all review requests
 // @method GET
@@ -24,8 +25,12 @@ router.post('/requests/reject/:articleID', verifyAccessToken, rejectArticle);
 router.get('/currently-reviewing', verifyAccessToken, getCurrentlyReviewing);
 // TODO -> GET A LIST OF ALL REVIEWS DONE BY THE USER
 
-// TODO -> GET A SINGLE REVIEW DONE BY THE USER
+router.get('/all-reviews', verifyAccessToken, getAllReviews);
 
+
+
+// TODO -> GET A SINGLE REVIEW DONE BY THE USER
+router.get('/get-review/:id', verifyAccessToken, getReview);
 // @desc Page wise review storage
 // @method POST
 // @path /review/page-review/:articleID
@@ -40,4 +45,6 @@ router.post('/author-question-answers/:articleID', verifyAccessToken, postAuthor
 // @method POST
 // @path /review/final-review/:articleID
 router.post('/final-review/:articleID', verifyAccessToken, handleFinalSubmission);
+
+
 module.exports = router;
