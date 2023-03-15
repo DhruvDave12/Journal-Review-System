@@ -1,0 +1,14 @@
+GOOGLE_CLIENT_ID=649911505808-mk5uega00551g38t89ahbondanjonjvj.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=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
+GOOGLE_REDIRECT_URL=http://localhost:1337/sessions/oauth/google
+
+MONGO_CLOUD_URL=mongodb+srv://dhruvdave:DkrDOm2WviL2xQOH@cluster0.lnq3uqr.mongodb.net/?retryWrites=true&w=majority
+JWT_SECRET=thisisaverystrangesecret
+
+CLOUDINARY_CLOUD_NAME=arcadialogos
+CLOUDINARY_KEY=678873555916899
+CLOUDINARY_SECRET=IlqwrhSy-udrHTWG63Y2L7ksjy0
+
+JOURNAL_EDITOR_ID=63481829a1eac94c667d92dc
+
+SG_TOKEN=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
