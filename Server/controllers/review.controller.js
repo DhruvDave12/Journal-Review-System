@@ -526,3 +526,93 @@ module.exports.handleFinalSubmission = async (req, res) => {
     });
   }
 };
+
+
+module.exports.getAllReviews = async (req,res) => {
+    const payload = req.payload;
+    if(!payload){
+        return res.status(403).send({
+            success: false,
+            message: 'Invalid access token'
+        });
+    }
+
+    const userID = payload._id;
+    try {
+        const user = await User.findById(userID);
+        if(!user){
+            return res.status(403).send({
+                success: false,
+                message: 'User not found'
+            });
+        }
+
+        if(user.role != 'user'){
+            return res.status(403).send({
+                success: false,
+                message: 'You are not permitted to access this route'
+            });
+        }
+
+        // find all reviews by a user
+        const user_reviews = await User.find().populate('article_review reviewer');
+        
+
+        res.status(200).send({
+            success: true,
+            message: 'Successfully, fetched all reviewed articles',
+            user_reviews: user_reviews 
+        })
+
+    } catch (err) {
+        return res.status(500).send({
+            success: false,
+            message: 'Internal Server Error'
+        });
+    }
+}
+
+module.exports.getReview = async (req,res) => {
+    const {id} = req.params;
+    const payload = req.payload;
+    if(!payload){
+        return res.status(403).send({
+            success: false,
+            message: 'Invalid access token'
+        });
+    }
+
+    const userID = payload._id;
+    try {
+        const user = await User.findById(userID);
+        if(!user){
+            return res.status(403).send({
+                success: false,
+                message: 'User not found'
+            });
+        }
+
+        if(user.role != 'user'){
+            return res.status(403).send({
+                success: false,
+                message: 'You are not permitted to access this route'
+            });
+        }
+
+        // find all review wrt to id
+        const review = await Review.findById(id).populate('page_reviews reviewer');
+        
+
+        res.status(200).send({
+            success: true,
+            message: 'Successfully, fetched review',
+            review: review
+        })
+
+    } catch (err) {
+        return res.status(500).send({
+            success: false,
+            message: 'Internal Server Error'
+        });
+    }
+}
