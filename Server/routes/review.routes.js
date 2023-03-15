@@ -30,7 +30,7 @@ router.get('/all-reviews', verifyAccessToken, getAllReviews);
 
 
 // TODO -> GET A SINGLE REVIEW DONE BY THE USER
-
+router.get('/get-review/:id', verifyAccessToken, getReview);
 // @desc Page wise review storage
 // @method POST
 // @path /review/page-review/:articleID
@@ -45,6 +45,6 @@ router.post('/author-question-answers/:articleID', verifyAccessToken, postAuthor
 // @method POST
 // @path /review/final-review/:articleID
 router.post('/final-review/:articleID', verifyAccessToken, handleFinalSubmission);
-router.get('/get-review/:id', verifyAccessToken, getReview);
+
 
 module.exports = router;

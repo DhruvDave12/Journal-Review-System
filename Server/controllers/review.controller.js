@@ -555,7 +555,7 @@ module.exports.getAllReviews = async (req,res) => {
         }
 
         // find all reviews by a user
-        const user_reviews = await User.find().populate('article_review reviewer');
+        const user_reviews = await Review.find({reviewer:userID}).populate('page_reviews article author_question_answers');
         
 
         res.status(200).send({

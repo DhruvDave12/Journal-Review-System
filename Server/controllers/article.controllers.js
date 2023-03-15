@@ -176,7 +176,7 @@ module.exports.getAllArticles= async (req,res) => {
       });
   }
 }
-module.exports.getAnArticles= async (req,res) => {
+module.exports.getAnArticle= async (req,res) => {
   const payload = req.payload;
   const {id} = req.params;
   if(!payload){
