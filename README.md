@@ -35,8 +35,3 @@ This is the repository for our semester 5 design project.
  ```sh
   yarn dev
  ```
-
-# Work done till now:
-1. Google OAuth 2.0 has been setup and integrated with the frontend.
-2. Smart Contract has been setup with Hardhat and deploy script written.
-3. Created create-article API and integrated Cloudinary successfully.
