@@ -1,7 +1,7 @@
 const {verifyJWT} = require('../utils/jwt.utils');
 module.exports.verifyAccessToken = (req,res,next) => { 
     const {accessToken} = req.cookies;
-
+    
     if(!accessToken){
         return res.status(403).send("Access token is missing");
     }
