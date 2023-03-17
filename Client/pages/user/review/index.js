@@ -25,7 +25,6 @@ const Review = () => {
     const fetchCurrentlyReviewing = async () => {
       const response = await axiosInstance.get("/review/currently-reviewing");
       if (response.status === 200) {
-        console.log("RES: ", response.data.currently_reviewing);
         setCurrentlyReviewing(response.data.currently_reviewing);
       } else {
         console.log(response.data.message);
