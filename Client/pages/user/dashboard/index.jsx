@@ -1,51 +1,72 @@
-import 'antd/lib/select/style/index.css';
-import React, { useContext } from "react";
+import "antd/lib/select/style/index.css";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/auth.context";
-import { Select } from 'antd';
-import styles from '../../../styles/dashboard/dashboard.module.css';
+import { Select, Button, Modal } from "antd";
+import styles from "../../../styles/dashboard/dashboard.module.css";
 import LazyLoader from "../../../components/lazy-loader/lazy-loader.component";
+import axiosInstance from "../../../services/axiosInstance";
+import SelectDomain from "../../../components/select-domain/selectDomain.component";
+import { showToast } from "../../../utils/showToast";
 
 const Dashboard = () => {
-
   const { user, loading } = useContext(AuthContext);
 
-  const options = [
-    {
-      value: "Blockchain",
-      label: "Blockchain"
-    }, {
-      value: "Artificial Intelligence",
-      label: "Artificial Intelligence"
-    }, {
-      value: "Data Science",
-      label: "Data Science"
-    },{
-      value: "Computer Architecture",
-      label: "Computer Architecture"
-    },{
-      value: "Computer Networks",
-      label: "Computer Networks"
-    },{
-      value: "Image and Video Processing",
-      label: "Image and Video Processing"
-    },{
-      value: "Embedded Systems",
-      label: "Embedded Systems"
-    },{
-      value: "Operating Systems",
-      label: "Operating Systems"
+  const [selectedDomains, setSelectedDomains] = useState([]);
+  const [options, setOptions] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsModalVisible(
+        localStorage.getItem("@hasDomain") &&
+          localStorage.getItem("@hasDomain") === "true"
+          ? false
+          : true
+      );
     }
-  ]
+    const fetchDomainOptions = async () => {
+      const res = await axiosInstance.get("/user/domain/options");
+      setOptions(res.data.domainOptions);
+    };
+    fetchDomainOptions();
+  }, []);
+
+  const handleOk = async () => {
+    try {
+      await axiosInstance.post("/user/details", {
+        domain: selectedDomains,
+      });
+      setIsModalVisible(false);
+      localStorage.setItem("@hasDomain", true);
+    } catch (err) {
+      console.log("ERROR WHILE ADDING DOMAIN: ", err);
+    }
+  };
+
+  const handleCancel = () => {
+    showToast("Please select your domain(s) to continue", "error");
+  };
 
   return !loading ? (
     <div className={styles.user_dashboard}>
-      <p className={styles.select_domain}>
-        Select Your Specific Domain/s
+      <h1 style={{ fontSize: "36px" }}>Welcome {user?.user?.username} 👋</h1>
+      <p style={{ fontSize: "20px", fontWeight: "400" }}>
+        You can start by keeping your own articles for review or can review
+        others article. Get started by choosing the options for Review or Get
+        Reviewed.
       </p>
-      <Select mode="multiple" style={{
-        width: '80%',
-        margin: '20px 0',
-      }} placeholder="Select Domains" onChange={() => { }} options={options} />
+
+      <Modal
+        title="Select Domain"
+        open={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <SelectDomain
+          options={options}
+          setSelectedDomains={setSelectedDomains}
+        />
+      </Modal>
     </div>
   ) : (
     <LazyLoader />
