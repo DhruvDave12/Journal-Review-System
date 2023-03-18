@@ -5,9 +5,10 @@ import axiosInstance from "../../../../services/axiosInstance";
 import LazyLoader from "../../../../components/lazy-loader/lazy-loader.component";
 import styles from "../../../../styles/particular-review/ParticularReview.module.css";
 import { Button, Input } from "antd";
-const { TextArea } = Input;
-
 import { Document, Page, pdfjs } from "react-pdf";
+import { showToast } from "../../../../utils/showToast";
+
+const { TextArea } = Input;
 
 const ReviewPage = () => {
   const router = useRouter();
@@ -16,7 +17,6 @@ const ReviewPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [currPageNumber, setCurrentPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-
   const [currPageReview, setCurrentPageReview] = useState(null);
 
   useEffect(() => {
@@ -29,15 +29,72 @@ const ReviewPage = () => {
     fetchCurrentArticleToReview();
   }, []);
 
-  const handleNextPage = () => {
-    // TODO -> DO THE PAGE WISE REVIEW THING IN THE BACKEND BY CALLING THE API HERE
+  var articlePageMap;
+  if (typeof window !== "undefined") {
+    articlePageMap = JSON.parse(localStorage.getItem("articlePageReviewMap"));
+  }
+
+  const handleNextPage = async () => {
+    if (!articlePageMap?.[currentArticleToReview?._id]?.[currPageNumber]) {
+      // TODO -> DO THE PAGE WISE REVIEW THING IN THE BACKEND BY CALLING THE API HERE
+      const res = await axiosInstance.post(
+        `/review/page-review/${currentArticleToReview?._id}`,
+        {
+          review: currPageReview,
+          pageNumber: currPageNumber,
+        }
+      );
+
+      if (!res?.data?.success) {
+        showToast(
+          "There was some problem with the system. Please try again later",
+          "error"
+        );
+        return;
+      }
+
+      if (typeof window !== "undefined") {
+        const articlePageReviewMap = JSON.parse(
+          localStorage.getItem("articlePageReviewMap")
+        );
+
+        if (articlePageReviewMap) {
+          if (articlePageReviewMap[currentArticleToReview?._id]) {
+            articlePageReviewMap[currentArticleToReview?._id][currPageNumber] =
+              currPageReview;
+          } else {
+            articlePageReviewMap[currentArticleToReview?._id] = {
+              [currPageNumber]: currPageReview,
+            };
+          }
+        } else {
+          const newArticlePageReviewMap = {
+            [currentArticleToReview?._id]: {
+              [currPageNumber]: currPageReview,
+            },
+          };
+          localStorage.setItem(
+            "articlePageReviewMap",
+            JSON.stringify(newArticlePageReviewMap)
+          );
+        }
+      }
+    }
+
     setCurrentPageNumber((prevPageNumber) => prevPageNumber + 1);
+    setCurrentPageReview("");
   };
 
   const handlePreviousPage = () => {
+    const page = currPageNumber - 1;
     setCurrentPageNumber((prevPageNumber) => prevPageNumber - 1);
+    setCurrentPageReview(articlePageMap[currentArticleToReview?._id][page]);
   };
 
+  console.log(
+    "PAGE REVIEW: ",
+    articlePageMap?.[currentArticleToReview?._id]?.[currPageNumber]
+  );
   return !isLoading && currentArticleToReview ? (
     <div>
       <Head>
@@ -69,6 +126,11 @@ const ReviewPage = () => {
             </p>
             <div className={styles.toolbar__up}>
               <TextArea
+                defaultValue={
+                  articlePageMap?.[currentArticleToReview?._id]?.[
+                    currPageNumber
+                  ]
+                }
                 placeholder="Write your review here"
                 style={{ width: "100%", height: "100%" }}
                 rows={4}
