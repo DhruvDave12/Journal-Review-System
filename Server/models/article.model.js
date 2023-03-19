@@ -69,6 +69,10 @@ const articleSchema = new Schema(
       type: Number,
       default: 0,
     },
+    associate_decision: {
+      type: Boolean,
+      default: null,
+    },
   },
   {
     timestamps: true,

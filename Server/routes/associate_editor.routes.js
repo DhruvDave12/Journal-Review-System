@@ -6,6 +6,8 @@ const {
   acceptOrRejectArticle,
   // sendToDomains,
   currentlyOngoingJournals,
+  getReportForReviewsOfAnArticle,
+  postFinalCallForArticle,
 } = require("../controllers/associate_editor.controller");
 
 // @DESC: Get all requests
@@ -34,4 +36,17 @@ router.post("/request/accept-reject", verifyAccessToken, acceptOrRejectArticle);
 // @PATH /associate_editor/ongoing
 router.get("/ongoing", verifyAccessToken, currentlyOngoingJournals);
 
+// @DESC GET REPORT FOR THE ARTICLES
+// @METHOD GET
+// @PATH /associate_editor/report
+router.get(
+  "/reports/:articleID",
+  verifyAccessToken,
+  getReportForReviewsOfAnArticle
+);
+
+// @DESC POST THE FINAL DECISION FOR THE ARTICLE
+// @METHOD POST
+// @PATH /associate_editor/final-decision
+router.post("/final-decision/:articleID", verifyAccessToken, postFinalCallForArticle);
 module.exports = router;
