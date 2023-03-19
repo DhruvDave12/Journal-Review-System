@@ -3,15 +3,17 @@ const { domainOptions } = require("../utils/domain_names.utils");
 
 module.exports.getDetails = async (req, res) => {
   try {
-    const user = await User.findById(req.payload._id).populate({
-      path: "associate_requests",
-      populate: {
-        path: "article",
+    const user = await User.findById(req.payload._id)
+      .populate({
+        path: "associate_requests",
         populate: {
-          path: "author",
+          path: "article",
+          populate: {
+            path: "author",
+          },
         },
-      },
-    });
+      })
+      .populate("article_reviews");
     if (!user) {
       return res.status(404).send("User not found");
     }
@@ -20,7 +22,7 @@ module.exports.getDetails = async (req, res) => {
     res.status(500).send({
       success: false,
       message: "Internal Server Error",
-      error: err,
+      error: error,
     });
   }
 };
