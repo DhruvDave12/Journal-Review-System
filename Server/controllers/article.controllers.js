@@ -221,6 +221,7 @@ module.exports.getAnArticle = async (req, res) => {
     return res.status(500).send({
       success: false,
       message: "Internal Server Error",
+      error: err,
     });
   }
 };

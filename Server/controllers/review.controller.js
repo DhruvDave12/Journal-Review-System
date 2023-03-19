@@ -354,7 +354,7 @@ module.exports.postAuthorQuestionAnswers = async (req, res) => {
 
     const { articleID } = req.params;
     const { answers } = req.body;
-    console.log("ANSWERS: ", answers);
+
     if (!answers) {
       return res.status(403).send({
         success: false,
@@ -403,7 +403,7 @@ module.exports.postAuthorQuestionAnswers = async (req, res) => {
     let score = 0;
     [...answers].forEach((answer) => {
       const question = article.author_questions.find(
-        (question) => question._id == answer.questionID
+        (question) => question._id.toString() === answer.questionID
       );
       if (!question) {
         return res.status(403).send({
@@ -422,14 +422,14 @@ module.exports.postAuthorQuestionAnswers = async (req, res) => {
 
     if (score < acceptedScore) {
       // TODO -> what to do when the user fails the test for the first time.
-      return res.status(200).send({
-        success: true,
+      return res.status(201).send({
+        success: false,
         message: "You have failed the author question test",
         score,
       });
     }
     review_obj.author_test_passed = true;
-    review_obj.progress += 20;
+    // review_obj.progress += 20;
     await review_obj.save();
 
     res.status(200).send({
@@ -507,11 +507,13 @@ module.exports.handleFinalSubmission = async (req, res) => {
       });
     }
 
+    // article.hasAuthorCompletedReview = true;
     review_obj.critical_analysis = critical_analysis;
-    review_obj.progress += 20;
+    // review_obj.progress += 20;
     review_obj.isCompleted = true;
     review_obj.should_be_published = should_be_published;
     await review_obj.save();
+    await article.save();
 
     res.status(200).send({
       success: true,

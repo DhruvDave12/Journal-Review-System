@@ -12,12 +12,14 @@ const { TextArea } = Input;
 
 const ReviewPage = () => {
   const router = useRouter();
+
   const { article_id } = router.query;
   const [currentArticleToReview, setCurrentArticleToReview] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [currPageNumber, setCurrentPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [currPageReview, setCurrentPageReview] = useState(null);
+  const [pageReviewToShow, setPageReviewToShow] = useState(null);
+  const [currPageReview, setCurrentPageReview] = useState(pageReviewToShow);
 
   useEffect(() => {
     const fetchCurrentArticleToReview = async () => {
@@ -29,78 +31,87 @@ const ReviewPage = () => {
     fetchCurrentArticleToReview();
   }, []);
 
-  var articlePageMap;
-  if (typeof window !== "undefined") {
-    articlePageMap = JSON.parse(localStorage.getItem("articlePageReviewMap"));
-  }
-
-  const handleNextPage = async () => {
-    if (!articlePageMap?.[currentArticleToReview?._id]?.[currPageNumber]) {
-      // TODO -> DO THE PAGE WISE REVIEW THING IN THE BACKEND BY CALLING THE API HERE
-      const res = await axiosInstance.post(
-        `/review/page-review/${currentArticleToReview?._id}`,
-        {
-          review: currPageReview,
-          pageNumber: currPageNumber,
-        }
-      );
-
-      if (!res?.data?.success) {
-        showToast(
-          "There was some problem with the system. Please try again later",
-          "error"
-        );
-        return;
-      }
-
-      if (typeof window !== "undefined") {
-        const articlePageReviewMap = JSON.parse(
-          localStorage.getItem("articlePageReviewMap")
-        );
-
-        if (articlePageReviewMap) {
-          if (articlePageReviewMap[currentArticleToReview?._id]) {
-            articlePageReviewMap[currentArticleToReview?._id][currPageNumber] =
-              currPageReview;
-          } else {
-            articlePageReviewMap[currentArticleToReview?._id] = {
-              [currPageNumber]: currPageReview,
-            };
-          }
-        } else {
-          const newArticlePageReviewMap = {
-            [currentArticleToReview?._id]: {
-              [currPageNumber]: currPageReview,
-            },
-          };
-          localStorage.setItem(
-            "articlePageReviewMap",
-            JSON.stringify(newArticlePageReviewMap)
-          );
-        }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      var articlePageMap =
+        JSON.parse(localStorage.getItem("articlePageReview")) || {};
+      var reviewArr = articlePageMap[currentArticleToReview?._id];
+      if (reviewArr && reviewArr.length >= currPageNumber) {
+        setPageReviewToShow(reviewArr[currPageNumber - 1]);
+      } else {
+        setPageReviewToShow(null);
       }
     }
+  }, [currPageNumber]);
 
+  const handleSavingToBackendAndLocalStorage = async () => {
+    if (typeof window !== "undefined") {
+      var articlePageMap =
+        JSON.parse(localStorage.getItem("articlePageReview")) || {};
+      var reviewArr = articlePageMap[currentArticleToReview?._id];
+
+      if (reviewArr && reviewArr.length >= currPageNumber) {
+        showToast("You have already reviewed this page", "success");
+        return;
+      }
+    }
+    const res = await axiosInstance.post(
+      `/review/page-review/${currentArticleToReview?._id}`,
+      {
+        review: currPageReview,
+        pageNumber: currPageNumber,
+      }
+    );
+
+    if (!res?.data?.success) {
+      showToast(
+        "There was some problem with the system. Please try again later",
+        "error"
+      );
+      return;
+    }
+
+    var existingArticlePageReview =
+      JSON.parse(localStorage.getItem("articlePageReview")) || {};
+    var reviewArr = existingArticlePageReview[currentArticleToReview?._id];
+
+    if (reviewArr && reviewArr.length < currPageNumber) {
+      reviewArr.push(currPageReview);
+    } else if (reviewArr && reviewArr.length >= currPageNumber) {
+      reviewArr[currPageNumber - 1] = currPageReview;
+    } else {
+      reviewArr = [currPageReview];
+    }
+
+    existingArticlePageReview[currentArticleToReview?._id] = reviewArr;
+
+    localStorage.setItem(
+      "articlePageReview",
+      JSON.stringify(existingArticlePageReview)
+    );
+    showToast("Successfully saved your review", "success");
+  };
+
+  const handleNextPage = async () => {
+    await handleSavingToBackendAndLocalStorage();
     setCurrentPageNumber((prevPageNumber) => prevPageNumber + 1);
-    setCurrentPageReview("");
   };
 
   const handlePreviousPage = () => {
-    const page = currPageNumber - 1;
     setCurrentPageNumber((prevPageNumber) => prevPageNumber - 1);
-    setCurrentPageReview(articlePageMap[currentArticleToReview?._id][page]);
   };
 
-  console.log(
-    "PAGE REVIEW: ",
-    articlePageMap?.[currentArticleToReview?._id]?.[currPageNumber]
-  );
+  const handleRouteToAuthorQuestions = async () => {
+    await handleSavingToBackendAndLocalStorage();
+    router.push(`/user/review/${article_id}/author-questions`);
+  };
+
   return !isLoading && currentArticleToReview ? (
     <div>
       <Head>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.js"></script>
       </Head>
-
+      {/* <h1>{pageReviewToShow}</h1> */}
       <div style={{ padding: "0 20px" }} className="wrapper">
         <h1 style={{ fontSize: "30px", fontWeight: "700" }}>
           {currentArticleToReview.title}
@@ -124,20 +135,28 @@ const ReviewPage = () => {
             <p style={{ color: "black", textAlign: "right" }}>
               Page {currPageNumber} of {totalPages}
             </p>
+            {/* TODO -> ADD THE EDIT REVIEW FEATURE ALSO ON THE FRONTEND */}
             <div className={styles.toolbar__up}>
-              <TextArea
-                defaultValue={
-                  articlePageMap?.[currentArticleToReview?._id]?.[
-                    currPageNumber
-                  ]
-                }
-                placeholder="Write your review here"
-                style={{ width: "100%", height: "100%" }}
-                rows={4}
-                onChange={(e) => {
-                  setCurrentPageReview(e.target.value);
-                }}
-              />
+              {pageReviewToShow ? (
+                <TextArea
+                  value={pageReviewToShow}
+                  placeholder="Write your review here"
+                  style={{ width: "100%", height: "100%" }}
+                  rows={4}
+                  onChange={(e) => {
+                    setCurrentPageReview(e.target.value);
+                  }}
+                />
+              ) : (
+                <TextArea
+                  placeholder="Write your review here"
+                  style={{ width: "100%", height: "100%" }}
+                  rows={4}
+                  onChange={(e) => {
+                    setCurrentPageReview(e.target.value);
+                  }}
+                />
+              )}
             </div>
             <div className={styles.toolbar__down}>
               <div className={styles.toolbar__right__buttons}>
@@ -155,6 +174,17 @@ const ReviewPage = () => {
                 </Button>
               </div>
             </div>
+            {currPageNumber == totalPages && (
+              <div className={styles.final__submission__button}>
+                <Button
+                  type="primary"
+                  style={{ width: "50%" }}
+                  onClick={handleRouteToAuthorQuestions}
+                >
+                  Submit Page Reviews
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -1,0 +1,17 @@
+.question__wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.question__ques{
+    font-size: 1.5rem;
+    margin: 1rem 0;
+    font-weight: 500;
+}
+.question__options{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}

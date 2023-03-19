@@ -15,6 +15,7 @@ const Review = () => {
   useEffect(() => {
     const fetchNewReviewRequests = async () => {
       const response = await axiosInstance.get("/review/requests");
+      console.log("RESPONSE: ", response.data);
       if (response.status === 200) {
         setNewReviewRequests(response.data.requests);
       } else {

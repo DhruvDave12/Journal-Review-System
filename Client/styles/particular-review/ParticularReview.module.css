@@ -42,3 +42,10 @@
     justify-content: space-around;
     align-items: center;
 }
+.final__submission__button{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}

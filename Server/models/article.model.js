@@ -1,7 +1,7 @@
-const mongoose = require ('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const pdfSchema = new Schema ({
+const pdfSchema = new Schema({
   url: {
     type: String,
     required: true,
@@ -12,7 +12,7 @@ const pdfSchema = new Schema ({
   },
 });
 
-const articleSchema = new Schema (
+const articleSchema = new Schema(
   {
     title: {
       type: String,
@@ -24,19 +24,19 @@ const articleSchema = new Schema (
     },
     author: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
     },
     associate_editor: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
     },
     reviews: {
       type: [Schema.Types.ObjectId],
-      ref: 'Review',
+      ref: "Review",
     },
     author_questions: {
       type: [Schema.Types.ObjectId],
-      ref: 'Question',
+      ref: "Question",
     },
     current_progress: {
       type: Number,
@@ -47,7 +47,7 @@ const articleSchema = new Schema (
     },
     time_alloted_unit: {
       type: String,
-      enum: ['days', 'weeks', 'months', 'year'],
+      enum: ["days", "weeks", "months", "year"],
     },
     is_assigned: {
       type: Boolean,
@@ -59,7 +59,7 @@ const articleSchema = new Schema (
     },
     rejected_reviewers: {
       type: [Schema.Types.ObjectId],
-      ref: 'User',
+      ref: "User",
     },
     total_pages: {
       type: Number,
@@ -75,4 +75,4 @@ const articleSchema = new Schema (
   }
 );
 
-module.exports = mongoose.model ('Article', articleSchema);
+module.exports = mongoose.model("Article", articleSchema);

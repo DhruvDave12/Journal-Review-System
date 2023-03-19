@@ -7,6 +7,8 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
 
 contract JournalReview is Initializable, OwnableUpgradeable {
+    
+
     function initialize(address _owner) public payable initializer {
         __Ownable_init();
         transferOwnership(_owner);

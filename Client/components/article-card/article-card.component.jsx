@@ -58,23 +58,29 @@ const ArticleCard = ({
         </>
       ) : (
         <div className="reject-btn">
-          <Button
-            onClick={() => redirectToReviewPage()}
-            type="primary"
-            style={{
-              backgroundColor: "#EEA4FF",
-              width: "100%",
-              height: "50px",
-              border: "none",
-              borderRadius: "6px",
-              fontSize: "20px",
-              fontFamily: "Inter, sans-serif",
-              cursor: "pointer",
-              color: "black",
-            }}
-          >
-            View
-          </Button>
+          {request?.hasAuthorCompletedReview ? (
+            <p style={{ color: "white", fontWeight: "500", fontSize: 18 }}>
+              Completed ✅
+            </p>
+          ) : (
+            <Button
+              onClick={() => redirectToReviewPage()}
+              type="primary"
+              style={{
+                backgroundColor: "#EEA4FF",
+                width: "100%",
+                height: "50px",
+                border: "none",
+                borderRadius: "6px",
+                fontSize: "20px",
+                fontFamily: "Inter, sans-serif",
+                cursor: "pointer",
+                color: "black",
+              }}
+            >
+              Review
+            </Button>
+          )}
         </div>
       )}
 
