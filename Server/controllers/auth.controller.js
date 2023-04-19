@@ -8,7 +8,7 @@ const { signJWT, verifyJWT } = require("../utils/jwt.utils");
 
 const accessTokenCookieOptions = {
   maxAge: 86400000,
-  domain: "journal-review-system.vercel.app",
+  domain: "journal-review-system.onrender.com",
   path: "/",
   sameSite: "none",
   secure: true,
