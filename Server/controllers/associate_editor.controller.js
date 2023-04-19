@@ -480,9 +480,6 @@ module.exports.postFinalCallForArticle = async (req, res) => {
         message: "You are not permitted to access this route",
       });
     }
-    console.log("USER: ", user);
-    console.log("ARTICLE: ", article);
-    console.log("REQUEST: ", requestt);
 
     article.associate_decision = decision;
     user.is_associate_working = false;
@@ -490,7 +487,6 @@ module.exports.postFinalCallForArticle = async (req, res) => {
 
     await article.save();
     await user.save();
-    // TODO -> fix this bug of request.save is not a function
     await requestt.save();
 
     if (decision === true) {
