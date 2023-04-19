@@ -36,7 +36,7 @@ app.use("/review", reviewerRoutes);
 app.get("/", (req, res) => {
   res.send("Welcome to Decentralized Journal Review System");
 });
-const PORT = 1337 || process.env.PORT;
+const PORT = process.env.PORT || 1337;
 app.listen(PORT, () => {
   console.log("Server is running on port " + PORT + "🎉");
 });
