@@ -309,7 +309,18 @@ module.exports.postPageWiseReview = async (req, res) => {
       const totalPages = article.total_pages;
       const totalComments = pageReview.comments.length;
       review_object.progress = (totalComments / totalPages) * 60;
-      review_object.page_reviews.push(pageReview._id);
+      if (review_object.page_reviews.length === 0) {
+        review_object.page_reviews.push(pageReview._id);
+      } else {
+        const pageReviewIndex = review_object.page_reviews.findIndex(
+          (pageReview) => pageReview.article.toString() === articleID
+        );
+        if (pageReviewIndex != -1) {
+          review_object.page_reviews[pageReviewIndex] = pageReview._id;
+        } else {
+          review_object.page_reviews.push(pageReview._id);
+        }
+      }
       await review_object.save();
 
       return res.status(200).send({
@@ -593,15 +604,27 @@ module.exports.getReview = async (req, res) => {
       });
     }
 
-    if (user.role != "user") {
+    if (user.role != "associate-editor") {
       return res.status(403).send({
         success: false,
         message: "You are not permitted to access this route",
       });
     }
 
-    // find all review wrt to id
-    const review = await Review.findById(id).populate("page_reviews reviewer");
+    const review = await Review.findById(id)
+      .populate({
+        path: "page_reviews",
+        populate: {
+          path: "comments",
+        },
+      })
+      .populate("reviewer")
+      .populate({
+        path: "article",
+        populate: {
+          path: "author_questions",
+        },
+      });
 
     res.status(200).send({
       success: true,

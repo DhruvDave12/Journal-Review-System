@@ -2,6 +2,7 @@ const User = require("../models/user.model");
 const RequestedArticle = require("../models/requested_article.model");
 const Article = require("../models/article.model");
 const Requests = require("../models/requested_article.model");
+const Review = require("../models/review.model");
 
 const { sendMail } = require("../config/send_grid");
 
@@ -346,6 +347,7 @@ module.exports.currentlyOngoingJournals = async (req, res) => {
     const requests = await Requests.find({
       isRequested: false,
       isFulfilled: true,
+      isCompleted: false,
     }).populate({
       path: "article",
       populate: {
@@ -366,6 +368,147 @@ module.exports.currentlyOngoingJournals = async (req, res) => {
     });
   } catch (err) {
     console.log("ERR: ", err);
+    return res.status(500).send({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+
+module.exports.getReportForReviewsOfAnArticle = async (req, res) => {
+  const payload = req.payload;
+  if (!payload) {
+    return res.status(403).send({
+      success: false,
+      message: "Invalid access token",
+    });
+  }
+
+  const associateID = payload._id;
+  if (!associateID) {
+    return res.status(403).send({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+
+  const { articleID } = req.params;
+  try {
+    const user = await User.findById(associateID);
+    if (!user) {
+      return res.status(403).send({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    if (user.role !== "associate-editor") {
+      return res.status(403).send({
+        success: false,
+        message: "You are not permitted to access this route",
+      });
+    }
+
+    const reviews = await Review.find({ article: articleID }).populate(
+      "article reviewer page_reviews"
+    );
+
+    return res.status(200).send({
+      success: true,
+      message: "Successfully, fetched the reviews",
+      reviews: reviews,
+    });
+  } catch (err) {
+    return res.status(500).send({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+
+module.exports.postFinalCallForArticle = async (req, res) => {
+  const payload = req.payload;
+  if (!payload) {
+    return res.status(403).send({
+      success: false,
+      message: "Invalid access token",
+    });
+  }
+
+  const associateID = payload._id;
+  if (!associateID) {
+    return res.status(403).send({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+
+  const { articleID } = req.params;
+  const { decision } = req.body;
+
+  try {
+    const user = await User.findById(associateID);
+    if (!user) {
+      return res.status(403).send({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    if (user.role !== "associate-editor") {
+      return res.status(403).send({
+        success: false,
+        message: "You are not permitted to access this route",
+      });
+    }
+
+    const article = await Article.findById(articleID).populate("author");
+    const requestt = await RequestedArticle.findOne({
+      article: articleID,
+    });
+
+    if (!article) {
+      return res.status(403).send({
+        success: false,
+        message: "Article not found",
+      });
+    }
+
+    if (article.associate_editor.toString() !== associateID) {
+      return res.status(403).send({
+        success: false,
+        message: "You are not permitted to access this route",
+      });
+    }
+
+    article.associate_decision = decision;
+    user.is_associate_working = false;
+    requestt.isCompleted = true;
+
+    await article.save();
+    await user.save();
+    await requestt.save();
+
+    if (decision === true) {
+      sendMail({
+        to: article.author.email,
+        subject: "Congratulations 🎉, Your article has been accepted",
+        html: `<strong>Congratulations 🎉 !! Your article has been accepted by our journal. Thanks for choosing us.</strong>`,
+      });
+    } else {
+      sendMail({
+        to: article.author.email,
+        subject: "Sorry, Your article has been rejected",
+        html: `<strong>Sorry !! Your article has been rejected by our journal. Thanks for choosing us.</strong>`,
+      });
+    }
+
+    return res.status(200).send({
+      success: true,
+      message: "Successfully, posted the final decision",
+    });
+  } catch (err) {
+    console.log("ERROR: ", err);
     return res.status(500).send({
       success: false,
       message: "Internal Server Error",

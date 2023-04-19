@@ -6,9 +6,12 @@ import { Avatar, Button, List, Divider } from "antd";
 import axiosInstance from "../../../services/axiosInstance";
 import AssociateEditorAcceptModal from "../../../components/associate-editor-accept-modal/Modal";
 import { showToast } from "../../../utils/showToast";
+import { useRouter } from "next/router";
 
 // TODO -> FIX THE BUG REGARDING WHEN THE USER ACCEPTS THEY HAVE TO REFRESH THE PAGE TO SEE THE CHANGES
 const Dashboard = () => {
+  const router = useRouter();
+
   const { user, loading } = useContext(AuthContext);
   const [ongoingArticles, setOnGoingArticles] = useState([]);
   const [timeAlloted, setTimeAlloted] = useState();
@@ -97,7 +100,10 @@ const Dashboard = () => {
     setModalOpen(true);
   };
 
-  console.log("ONGOING: ", ongoingArticles);
+  const handleGoingToReportsPage = (articleID) => {
+    router.push(`/associate-editor/reports/${articleID}`);
+  };
+
   return !loading || !associateLoading ? (
     <div className={styles.user__dashboard}>
       <div className={styles.your__request__title}>Here are your requests</div>
@@ -137,10 +143,13 @@ const Dashboard = () => {
           itemLayout="horizontal"
           dataSource={ongoingArticles}
           renderItem={(item) => (
-            <List.Item>
+            <List.Item
+              onClick={() => handleGoingToReportsPage(item?._id)}
+              style={{ cursor: "pointer" }}
+            >
               <List.Item.Meta
                 avatar={<Avatar src={item.author.picture} />}
-                title={<a href="https://ant.design">{item.title}</a>}
+                title={item.title}
                 // description={`By ${item.article.author.username} under the domain ${item.article.domain}`}
               />
             </List.Item>

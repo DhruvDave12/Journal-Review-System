@@ -194,12 +194,12 @@ module.exports.getAnArticle = async (req, res) => {
       });
     }
 
-    if (user.role != "user") {
-      return res.status(403).send({
-        success: false,
-        message: "You are not permitted to access this route",
-      });
-    }
+    // if (user.role != "user" || user.role != "associate-editor") {
+    //   return res.status(403).send({
+    //     success: false,
+    //     message: "You are not permitted to access this route",
+    //   });
+    // }
 
     // find an articles where author is user and id of article = id required for aritcle
 

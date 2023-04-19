@@ -1,15 +1,13 @@
 const { ethers } = require("hardhat");
 
 async function main() {
-  const JournalFactory = await ethers.getContractFactory(
-    "JournalReviewFactory"
-  );
-  const journalFactory = await JournalFactory.deploy();
+  const JournalReview = await ethers.getContractFactory("JournalReview");
+  const journalReview = await JournalReview.deploy();
 
-  await journalFactory.deployed();
+  await journalReview.deployed();
 
   console.log(
-    `Journal Review Factory deployed to address: ${journalFactory.address}`
+    `Journal Review Factory deployed to address: ${journalReview.address}`
   );
 }
 
