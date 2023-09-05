@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import styles from '../styles/home/homepage.module.css';
 import cookies from 'next-cookies';
 import { AuthContext } from '../context/auth.context';
@@ -8,17 +8,19 @@ import { Button } from "antd";
 import { useRouter } from 'next/router'
 
 const Home = (accessToken) => {
-  const { setAccessToken, isLoggedIn } = useContext(AuthContext);
+  const { setAccessToken, isLoggedIn, contract, user } = useContext(AuthContext);
   const router = useRouter()
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     setAccessToken(accessToken);
   }, []);
 
-  let role = 'NaN';
+  let role = 'Nan';
+
   if(typeof window !== 'undefined'){
     role = localStorage.getItem('role');
   }
-
   return (
     <div className={styles.home}>
       <div className={styles.center_wrap}>

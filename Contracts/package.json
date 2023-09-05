@@ -1,7 +1,8 @@
 {
   "name": "hardhat-project",
   "scripts": {
-    "deploy:polygon_mumbai": "npx hardhat run scripts/deploy.js --network polygon_mumbai"
+    "deploy:polygon_mumbai": "npx hardhat run scripts/deploy.js --network polygon_mumbai",
+    "deploy:sepolia": "npx hardhat run scripts/deploy.js --network sepolia"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",

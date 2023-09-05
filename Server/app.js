@@ -15,7 +15,8 @@ const reviewerRoutes = require("./routes/review.routes");
 configDB();
 const app = express();
 const corsOptions = {
-  origin: "https://journal-review-system.vercel.app",
+  // origin: "https://journal-review-system.vercel.app",
+  origin: "http://localhost:3000",
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };

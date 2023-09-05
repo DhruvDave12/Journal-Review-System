@@ -33,6 +33,10 @@ contract JournalReview {
 
     // @dev function to initialize user reputation
     function initUserReputation(string memory _mongoId) public {
+        // if mongid exist in the map then return
+        if (userReputationMap[_mongoId].score != 0) {
+            return;
+        } 
         userReputationMap[_mongoId] = UserReputation(0, 0);
     }
 
