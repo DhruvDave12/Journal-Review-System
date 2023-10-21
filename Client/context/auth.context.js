@@ -18,7 +18,6 @@ export const AuthProvider = ({ children }) => {
     const provider = new ethers.providers.Web3Provider(window?.ethereum, "any");
     await provider.send("eth_requestAccounts", []);
     const signer = provider.getSigner();
-    console.log("signer: ", signer);
     setSigner(signer);
     setContract(new Contract(SEPOLIA_CONTRACT_ADDRESS, JRSContract.abi, signer));
   }
@@ -26,19 +25,21 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const getUser = async () => {
       setLoading(true);
+      console.log("WE ARE RUNNINGGG...");
+      await initializeContract();
       try {
         const res = await axiosInstance.get("/user/details");
-        console.log("RES FROM USER: ", res.data);
         if (res.status === 200) {
           localStorage.setItem("role", res?.data?.user?.role);
           setUser(res.data);
+          console.log("CALLING THE USER INIT FN: ", res?.data?.user?._id);
+          const tx = await contract?.initUserReputation(res?.data?.user?._id);
         } else {
           setUser(null);
           setIsLoggedIn(false);
         }
-        initializeContract();
       } catch (err) {
-        console.log(err);
+        console.log("ERRROR WHILE INITIALIZING USER: ", err);
       }
       setLoading(false);
     };

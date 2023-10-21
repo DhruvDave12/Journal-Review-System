@@ -25,6 +25,7 @@ const ReviewPage = () => {
     const fetchCurrentArticleToReview = async () => {
       setIsLoading(true);
       const res = await axiosInstance.get(`/article/get-single/${article_id}`);
+      console.log("RES ARTICLE: ", res.data);
       setCurrentArticleToReview(res.data.article);
       setIsLoading(false);
     };
@@ -42,7 +43,7 @@ const ReviewPage = () => {
         setPageReviewToShow(null);
       }
     }
-  }, [currPageNumber]);
+  }, [currPageNumber, typeof window]);
 
   const handleSavingToBackendAndLocalStorage = async () => {
     if (typeof window !== "undefined") {
@@ -105,7 +106,7 @@ const ReviewPage = () => {
     await handleSavingToBackendAndLocalStorage();
     router.push(`/user/review/${article_id}/author-questions`);
   };
-
+  console.log("FILE: ", currentArticleToReview?.pdfFile?.url);
   return !isLoading && currentArticleToReview ? (
     <div>
       <Head>

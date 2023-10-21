@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import axiosInstance from "../../../../services/axiosInstance";
 import { showToast } from "../../../../utils/showToast";
 import LazyLoader from "../../../../components/lazy-loader/lazy-loader.component";
 import { Button, Divider } from "antd";
 import ReportBar from "../../../../components/report-bar/reportBar.component";
-import Modal from "antd";
 import AssociateFinalCall from "../../../../components/associate-final-call/associateFinalCall.component";
+import { AuthContext } from "../../../../context/auth.context";
 
 const ArticleReports = () => {
   const router = useRouter();
+  const {contract} = useContext(AuthContext);
 
   const { articleID } = router.query;
 
@@ -25,6 +26,18 @@ const ArticleReports = () => {
     setIsModalVisible(true);
   };
 
+  const updateContract = async (associateCall) => {
+    const mongoIDs = currentArticle.reviews.map((review) => review.reviewer);
+    const reviewersComment = currentArticle.reviews.map((review) => {
+      return review.should_be_published ? "YES" : "NO";
+    })   
+    const call = associateCall === true ? "YES" : "NO";
+    const tx = await contract?.updateUserReputation(mongoIDs, reviewersComment,call);
+    // wait for the above transaction to complete
+    const succTx = await tx.wait();
+    console.log("Tx: ", succTx);
+  }
+
   const handleOk = async () => {
     setConfirmLoading(true);
     const res = await axiosInstance.post(
@@ -34,6 +47,7 @@ const ArticleReports = () => {
       }
     );
     if (res.status === 200) {
+      await updateContract(associateFinalCall);
       showToast("Final Decision Taken Successfully", "success");
       router.push("/associate-editor/dashboard");
       setIsModalVisible(false);

@@ -21,7 +21,7 @@ contract JournalReview {
     uint256 private constant TOKEN_TO_GIVE = 50;
 
     address private constant associateEditor =
-        0xd69c42670211857a1c4DE08633FB411C80056989;
+        0x1Ab250aeD28B1C7130458E28c8dadC994cf71B41;
 
     modifier isAssociateEditor() {
         require(
@@ -32,12 +32,13 @@ contract JournalReview {
     }
 
     // @dev function to initialize user reputation
-    function initUserReputation(string memory _mongoId) public {
+    function initUserReputation(string memory _mongoId) public returns (bool) {
         // if mongid exist in the map then return
         if (userReputationMap[_mongoId].score != 0) {
-            return;
-        } 
+            return false;
+        }
         userReputationMap[_mongoId] = UserReputation(0, 0);
+        return true;
     }
 
     // @dev function to update user reputation

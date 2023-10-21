@@ -65,7 +65,7 @@ const AuthorQuestionAnswers = () => {
         answer: userAnswers[i],
       });
     }
-
+    console.log("ANSWERS: ", answersToSendArr);
     try {
       const res = await axiosInstance.post(
         `/review/author-question-answers/${article_id}`,
@@ -76,7 +76,7 @@ const AuthorQuestionAnswers = () => {
 
       if (res.status === 200) {
         showToast(
-          "Your have passed the author test and is eligible for the final review.",
+          "You have passed the author test and is eligible for the final review.",
           "success"
         );
         showModal();

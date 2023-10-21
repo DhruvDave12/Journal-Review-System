@@ -259,7 +259,7 @@ module.exports.postPageWiseReview = async (req, res) => {
         message: "You are not reviewing this article yet",
       });
     }
-    console.log("REVIEW OBJ: ", review_object);
+    
     const pageReview = await PageReview.findOne({
       article: articleID,
     }).populate("comments");
@@ -356,6 +356,7 @@ module.exports.postAuthorQuestionAnswers = async (req, res) => {
       });
     }
 
+    console.log("USER: ", user.role);
     if (user.role != "user") {
       return res.status(403).send({
         success: false,
@@ -365,7 +366,6 @@ module.exports.postAuthorQuestionAnswers = async (req, res) => {
 
     const { articleID } = req.params;
     const { answers } = req.body;
-
     if (!answers) {
       return res.status(403).send({
         success: false,
@@ -381,7 +381,7 @@ module.exports.postAuthorQuestionAnswers = async (req, res) => {
     const review = article.reviews.find(
       (review) => review.reviewer.toString() === userID
     );
-    // console.log("REVIEW: ", review);
+    console.log("REVIEW: ", review);
     if (!review) {
       return res.status(403).send({
         success: false,
@@ -392,11 +392,11 @@ module.exports.postAuthorQuestionAnswers = async (req, res) => {
     const review_obj = await Review.findById(review._id).populate(
       "page_reviews"
     );
-
+    
     const userPageReview = review_obj.page_reviews.find(
       (page_review) => page_review.reviewer.toString() === userID
     );
-
+    console.log("USER PAGE REVIEW: ", userPageReview);
     if (!userPageReview) {
       return res.status(403).send({
         success: false,

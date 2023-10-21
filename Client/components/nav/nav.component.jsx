@@ -1,5 +1,4 @@
 import React, { useState, useEffect} from "react";
-import { ArrowUpOutlined, DownloadOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import { useContext } from "react";
 import { AuthContext } from "../../context/auth.context";
@@ -9,6 +8,7 @@ const Nav = () => {
     const { user, contract } = useContext(AuthContext);
     const [revToggle, setRevToggle] = useState(false);
     const [getToggle, setGetToggle] = useState(false);
+    const [score, setScore] = useState(null);
     const router = useRouter();
 
     const toReview = (e) => {
@@ -28,9 +28,11 @@ const Nav = () => {
     useEffect(() => {
         const getUserScoree = async () => {
             try {
-              console.log("ID: ", user?.user?._id);
-              const fetchedScore = await contract?.getUserScore(user?.user?._id);
-              console.log("FEMTCHED SCOMRE: ", fetchedScore);
+                if(user?.user?._id){ 
+                    console.log("USER: ", user?.user?._id);
+                    const fetchedScore = await contract?.getUserScore(user?.user?._id);
+                    setScore(fetchedScore.toNumber());
+                }
             } catch (err) {
                 console.log("ERROR WHILE FETCHING SCORE FROM CONTRACT: ", err);
             }
@@ -39,6 +41,7 @@ const Nav = () => {
           getUserScoree();
     }, [contract, user]);
     return (
+        score !== null ? 
         <div className="navbar">
             <div className="name">
                 <p>REVI<span>OUR</span></p>
@@ -51,8 +54,8 @@ const Nav = () => {
             </div >
             <div className="user-data">
                 <div className="rating">
-                    <div className="dashed">1242</div>
-                    <ArrowUpOutlined style={{ fontSize: '20px', color: 'green' }} />
+                    <div className="dashed">{score}</div>
+                    {/* <ArrowUpOutlined style={{ fontSize: '20px', color: 'green' }} /> */}
                 </div>
                 <div className="user-profile">
                     <div className="user_text">Hi {user?.user?.username}</div>
@@ -123,7 +126,7 @@ const Nav = () => {
                     }
 
                     .rating{
-                        width: 20%;
+                        width: 10%;
                         display: flex;
                         justify-content: space-around;
                         padding-right: 20px ;
@@ -158,6 +161,7 @@ const Nav = () => {
                 `}
             </style>
         </div >
+        : null
     )
 }
 
