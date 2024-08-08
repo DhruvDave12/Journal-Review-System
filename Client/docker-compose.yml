@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  jrs_client:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - .env.local
